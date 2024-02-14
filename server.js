@@ -1,8 +1,17 @@
 const http = require("http");
 const fs = require("fs");
+const _ = require("lodash");
 
 const server = http.createServer((req, res) => {
-  console.log("Request made..", req.url, req.method);
+  //Lodash
+  const num = _.random(0, 20);
+  console.log(num);
+
+  const great = _.once(() => {
+    console.log("Hello");
+  });
+
+  great();
 
   //Small Routing System
   let path = "./views/";
