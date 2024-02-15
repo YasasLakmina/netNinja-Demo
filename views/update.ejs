@@ -1,0 +1,38 @@
+<!-- HTML markup with form for updating blog -->
+<form id="update-form">
+  <label for="updated-title">Updated Title:</label>
+  <input type="text" id="updated-title" name="updatedTitle" required />
+  <label for="updated-snippet">Updated Snippet:</label>
+  <input type="text" id="updated-snippet" name="updatedSnippet" required />
+  <label for="updated-body">Updated Body:</label>
+  <textarea id="updated-body" name="updatedBody" required></textarea>
+  <button type="submit">Update</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document
+    .getElementById("update-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const updatedData = {
+        updatedTitle: document.getElementById("updated-title").value,
+        updatedSnippet: document.getElementById("updated-snippet").value,
+        updatedBody: document.getElementById("updated-body").value,
+      };
+
+      const blogId = "ID_OF_BLOG_TO_UPDATE"; // Replace with actual ID of the blog
+
+      axios
+        .put(`/blogs/${blogId}`, updatedData)
+        .then((response) => {
+          console.log("Blog updated successfully:", response.data);
+          // Handle success (e.g., show success message, redirect to updated blog page)
+        })
+        .catch((error) => {
+          console.error("Error updating blog:", error);
+          // Handle error (e.g., show error message)
+        });
+    });
+</script>

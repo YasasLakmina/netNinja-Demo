@@ -85,10 +85,106 @@ textarea {
 }
 .create-blog button {
   margin-top: 20px;
-  background: crimson;
+  background: rgb(31, 70, 132);
   color: white;
   padding: 6px;
   border: 0;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+.blog-entry {
+  margin-bottom: 20px; /* Add some space between each blog entry */
+}
+
+.read-more-button {
+  background-color: rgb(77, 96, 144); /* Set button background color to red */
+  color: white; /* Set text color to white */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add padding */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.read-more-button:hover {
+  background-color: rgb(61, 61, 72); /* Darken the button color on hover */
+}
+
+.details {
+  padding: 20px;
+}
+
+.details h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.blog-content {
+  margin-bottom: 20px;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+.update-button {
+  background-color: rgb(48, 48, 120);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.update-button:hover {
+  background-color: rgb(80, 80, 109);
+}
+
+/* CSS for blogs */
+.blogs {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.blog-entry {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.snippet {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.read-more-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.read-more-button:hover {
+  background-color: #0056b3;
 }

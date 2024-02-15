@@ -3,6 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const Blog = require("./models/blog");
+const path = require("path");
 
 const dbURI =
   "mongodb+srv://YasasLakmina:Lakmina0115722795@cluster0.lbr7xtj.mongodb.net/Blog-Ninja?retryWrites=true&w=majority";
@@ -12,90 +13,14 @@ mongoose
   .then(() => app.listen(3000))
   .catch((err) => console.log(err));
 
-//Adding to the database
-app.get("/add-blog", (req, res) => {
-  const blog = new Blog({
-    title: "New Blog 3",
-    snippet: "About My New Blog",
-    body: "More About My New Blog",
-  });
-  blog
-    .save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => console.log(err));
-});
-
-//Retreving from database
-app.get("/all-blogs", (req, res) => {
-  Blog.find()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-//Retrieving Specific data from the database\
-app.get("/single-blog", (req, res) => {
-  Blog.findById("65cdaff4c005c71f68ea782e")
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(morgan("tiny"));
 
-//Middleware Explanation
-
-// //1st middleware
-// app.use((req, res, next) => {
-//   console.log("new request made :");
-//   console.log("host :", req.hostname);
-//   console.log("path :", req.path);
-//   console.log("method :", req.method);
-
-//   //does not responsing then we have to use next functiont to move to the next middleware
-//   next();
-// });
-
-// //2nd middleware
-// app.use((req, res, next) => {
-//   console.log("in the next middleware");
-
-//   //does not responsing then we have to use next functiont to move to the next middleware
-//   next();
-// });
-
-//Register vire engine
+// Register view engine
 app.set("view engine", "ejs");
-
-//Listen for requests
-
-app.get("/", (req, res) => {
-  const blogs = [
-    {
-      title: "Yoshi finds eggs",
-      snippet: "Lorem ipsum dolor sit amet consectetur",
-    },
-    {
-      title: "Mario finds stars",
-      snippet: "Lorem ipsum dolor sit amet consectetur",
-    },
-    {
-      title: "How to defeat bowser",
-      snippet: "Lorem ipsum dolor sit amet consectetur",
-    },
-  ];
-
-  res.render("index", { title: "Home", blogs });
-});
+app.set("views", path.join(__dirname, "views"));
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
@@ -105,8 +30,71 @@ app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "Create a Blog" });
 });
 
-//404 page
-//this is middleware function
+// Retrieving single blog from database
+app.get("/blogs/update", (req, res) => {
+  const id = req.params.id;
+
+  Blog.findById(id)
+    .then((result) => {
+      res.render("update", { title: "Update", blog: result });
+    })
+    .catch((err) => console.log(err));
+});
+
+// Retrieving all blogs from database
+app.get("/", (req, res) => {
+  Blog.find()
+    .then((result) => {
+      res.render("index", { title: "All Blogs", blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// Handling the post request
+app.post("/blogs", (req, res) => {
+  const newBlog = new Blog(req.body);
+
+  newBlog
+    .save()
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error saving blog");
+    });
+});
+
+// Retrieving single blog from database
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { title: "Details", blog: result });
+    })
+    .catch((err) => console.log(err));
+});
+
+//Deleating the data
+app.delete("/blogs/:id", (req, res) => {
+  const blogId = req.params.id;
+
+  // Delete the blog from the database
+  Blog.findByIdAndDelete(blogId)
+    .then(() => {
+      console.log("Blog deleted successfully");
+      res.redirect("/");
+    })
+    .catch((error) => {
+      console.error("Error deleting blog:", error);
+      res.status(500).send("Error deleting blog"); // Send an error response
+    });
+});
+
+// 404 page
 app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
 });

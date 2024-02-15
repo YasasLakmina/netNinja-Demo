@@ -4,16 +4,58 @@
   <body>
     <%- include("./partials/nav.ejs") %>
     <div class="create-blog content">
-      <form>
+      <form action="/blogs" method="POST" id="form">
         <label for="title">Blog title:</label>
-        <input type="text" id="title" name="title" required />
+        <input name="title" type="text" id="title" required />
         <label for="snippet">Blog snippet:</label>
-        <input type="text" id="snippet" name="snippet" required />
+        <input name="snippet" type="text" id="snippet" required />
         <label for="body">Blog body:</label>
-        <textarea id="body" name="body" required></textarea>
-        <button>Submit</button>
+        <textarea name="body" id="body" required></textarea>
+        <button type="submit">Submit</button>
       </form>
     </div>
     <%- include("./partials/footer.ejs") %>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="create-blog content">
+      <form action="/blogs" method="post" id="form">
+        <label for="title">Blog title:</label>
+        <input name="title" type="text" id="title" required />
+        <label for="snippet">Blog snippet:</label>
+        <input name="snippet" type="text" id="snippet" required />
+        <label for="body">Blog body:</label>
+        <textarea name="body" id="body" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <%- include("./partials/footer.ejs") %>
+
+    <!-- using axios -->
+    <!--
+    <script>
+      document
+        .getElementById("form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const newBlog = {};
+          formData.forEach((value, key) => {
+            newBlog[key] = value;
+          });
+
+          try {
+            const response = await axios.post("/blogs", newBlog);
+            console.log(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        });
+    </script> -->
   </body>
 </html>

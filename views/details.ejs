@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="blog-content">
+        <p><%= blog.body %></p>
+      </div>
+      <div>
+        <button class="delete-button" data-doc="<%= blog._id %>">Delete</button>
+        <a href="/blogs/update>"
+          ><button class="update-button">Update</button></a
+        >
+      </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+
+    <!-- Import Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      document
+        .querySelector(".delete-button")
+        .addEventListener("click", function () {
+          // Prompt user for confirmation
+          var confirmation = confirm(
+            "Are you sure you want to delete this blog?"
+          );
+
+          // If user confirms, proceed with deletion
+          if (confirmation) {
+            var blogId = this.getAttribute("data-doc");
+
+            axios
+              .delete("/blogs/" + blogId)
+              .then((response) => {
+                // Handle successful deletion
+                console.log("Blog deleted successfully");
+                // Redirect to home page or perform any other action as needed
+              })
+              .catch((error) => {
+                // Handle error
+                console.error("Error deleting blog:", error);
+              });
+          }
+        });
+
+      // Event listener for Update button
+      document
+        .querySelector(".update-button")
+        .addEventListener("click", function () {
+          var blogId = this.getAttribute("data-doc");
+
+          // Redirect or perform other update actions as needed
+        });
+    </script>
+  </body>
+</html>
