@@ -7,7 +7,7 @@ const path = require("path");
 
 const dbURI =
   "mongodb+srv://YasasLakmina:Lakmina0115722795@cluster0.lbr7xtj.mongodb.net/Blog-Ninja?retryWrites=true&w=majority";
-
+const game;
 mongoose
   .connect(dbURI)
   .then(() => app.listen(3000))
